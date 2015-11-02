@@ -61,7 +61,7 @@ class OpenGraphMeta extends DataExtension {
             $this->owner->OGContent = 'website';
         }
         if ($this->owner->OGDescription == '') {
-            $this->owner->OGDescription = $this->owner->dbObject('Content')->Summary(25);
+            $this->owner->OGDescription = $this->owner->dbObject('Content')->Summary(50);
         }
     }
 
