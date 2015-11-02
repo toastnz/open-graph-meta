@@ -31,7 +31,7 @@ class OpenGraphMeta extends DataExtension {
 
         $fields->addFieldsToTab('Root.Main', ToggleCompositeField::create('Open graph', 'Open graph',
             array(
-                LiteralField::create('', '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="' . Director::absoluteBaseURL() . 'open-graph-meta/images/opengraph.png"></h2>'),
+                LiteralField::create('', '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="' . Director::absoluteBaseURL() . 'open-graph-meta/Images/opengraph.png"></h2>'),
                 TextField::create('OGTitle', '')->setAttribute('placeholder', 'e.g My Website')->setRightTitle('Page title goes here, automatically defaults to the page title'),
                 TextField::create('OGUrl', '')->setAttribute('placeholder', 'http://www.mywebsite.com/')->setRightTitle('Page URL goes here, automatically defaults to the page URL (shouldn\'t need overwriting)'),
                 DropdownField::create('OGContent', 'Content Type', array(
