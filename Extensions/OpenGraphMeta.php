@@ -63,6 +63,9 @@ class OpenGraphMeta extends DataExtension {
         if ($this->owner->OGDescription == '') {
             $this->owner->OGDescription = $this->owner->dbObject('Content')->Summary(50);
         }
+        if (!$this->owner->OGImageID) {
+            $this->owner->OGImageID = SiteConfig::current_site_config()->DefaultOpenGraphImage()->ID;
+        }
     }
 
     public function FirstImage() {
