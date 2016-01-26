@@ -25,7 +25,7 @@ class OpenGraphSiteConfigExtension extends DataExtension {
 
         $fields->findOrMakeTab('Root.Settings.OpenGraph');
         $fields->addFieldsToTab('Root.Settings.OpenGraph', array(
-            HeaderField::create('', 'OOpen Graph'),
+            HeaderField::create('', 'Open Graph'),
             UploadField::create('DefaultOpenGraphImage', 'Default Facebook Share Image')
         ));
 
