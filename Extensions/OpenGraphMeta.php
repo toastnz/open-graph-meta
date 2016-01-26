@@ -49,8 +49,8 @@ class OpenGraphMeta extends DataExtension {
         ));
     }
 
-    public function onBeforeWrite() {
-        parent::onBeforeWrite();
+    public function onAfterWrite() {
+        parent::onAfterWrite();
         if ($this->owner->OGTitle == '') {
             $this->owner->OGTitle = $this->owner->Title;
         }
