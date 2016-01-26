@@ -49,14 +49,17 @@ class OpenGraphMeta extends DataExtension {
         ));
     }
 
-    public function onAfterWrite() {
-        parent::onAfterWrite();
-        if ($this->owner->OGTitle == '') {
-            $this->owner->OGTitle = $this->owner->Title;
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if ($this->owner->ID) {
+            if ($this->owner->OGTitle == '') {
+                $this->owner->OGTitle = $this->owner->Title;
+            }
+            if ($this->owner->OGUrl == '') {
+                $this->owner->OGUrl = $this->owner->AbsoluteLink();
+            }
         }
-        if ($this->owner->OGUrl == '') {
-            $this->owner->OGUrl = $this->owner->AbsoluteLink();
-        }
+
         if ($this->owner->OGContent == '') {
             $this->owner->OGContent = 'website';
         }
