@@ -1,9 +1,30 @@
-# Silverstripe Open Graph Meta Data
+<p align="center">
+  <img style="width:100%;height:auto; max-width:635px" src="http://pinc.nz/git/opengraph/opengraphmeta.png">
+</p>
 
-Simple Module to add open graph meta information to a page
+# Silverstripe Open Graph Module
 
-Add the following to the HEAD of your document
+Simple Module to add Open Graph meta information to your site
+
+## Installation
+
+Get the goodness just like so:
 
 ```
-    <% include OpenGraphMeta %>
+ composer require toastnz/open-graph-meta
 ```
+
+Then add the following to the HEAD of your document 
+
+```
+ <% include OpenGraphMeta %>
+```
+
+Step 4: Profit
+
+
+
+
+<p align="center">
+  <img style="width:100%;height:auto; max-width:938px" src="http://pinc.nz/git/opengraph/settings.png">
+</p>
