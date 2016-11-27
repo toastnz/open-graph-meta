@@ -56,7 +56,7 @@ class OpenGraphMeta extends DataExtension {
                 $this->owner->OGTitle = $this->owner->Title;
             }
             if ($this->owner->OGUrl == '') {
-                $this->owner->OGUrl = $this->owner->AbsoluteLink();
+                $this->owner->OGUrl = $this->owner->Link();
             }
         }
 
