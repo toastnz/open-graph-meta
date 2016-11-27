@@ -82,5 +82,12 @@ class OpenGraphMeta extends DataExtension {
         }
     }
 
-
+    public function getOGUrlForTemplate()
+    {
+        if ($this->owner->OGUrl) {
+            return Controller::join_links(Director::absoluteBaseURL(), $this->owner->OGUrl);
+        } else {
+            return $this->owner->AbsoluteLink();
+        }
+    }
 }
