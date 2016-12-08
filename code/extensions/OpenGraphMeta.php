@@ -29,7 +29,7 @@ class OpenGraphMeta extends DataExtension
      */
     public function updateCMSFields(FieldList $fields)
     {
-        $fields->addFieldToTab('Root.Main', ToggleCompositeField::create('Open graph', 'Open graph',
+        $fields->addFieldToTab('Root.Main', ToggleCompositeField::create('OpenGraph', 'Open Graph',
             array(
                 LiteralField::create('', '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="' . Director::absoluteBaseURL() . 'open-graph-meta/images/opengraph.png"></h2>'),
                 TextField::create('OGTitle', '')->setAttribute('placeholder', 'e.g My Website')->setRightTitle('Page title goes here, automatically defaults to the page title'),
@@ -49,26 +49,35 @@ class OpenGraphMeta extends DataExtension
         ));
     }
 
+
     public function onBeforeWrite()
     {
+        /** =========================================
+         * @var SiteConfig $siteConfig
+        ===========================================*/
+
         parent::onBeforeWrite();
-        if ($this->owner->ID) {
-            if ($this->owner->OGTitle == '') {
-                $this->owner->OGTitle = $this->owner->Title;
+
+        $siteConfig = SiteConfig::current_site_config();
+
+        if ($this->owner->exists()) {
+            if ($this->owner->isChanged('Content') && !$this->owner->OGDescription) {
+                $this->owner->setField('OGDescription', $this->owner->dbObject('Content')->FirstParagraph());
             }
-            if ($this->owner->OGUrl == '') {
-                $this->owner->OGUrl = $this->owner->Link();
+            if ($this->owner->isChanged('Title') && !$this->owner->OGTitle) {
+                $this->owner->setField('OGTitle', $this->owner->Title);
+            }
+            if (!$this->owner->OGImageID) {
+                $this->owner->setField('OGImageID', $siteConfig->DefaultOpenGraphImageID);
             }
         }
 
-        if ($this->owner->OGContent == '') {
+        if (!$this->owner->OGContent) {
             $this->owner->OGContent = 'website';
         }
-        if ($this->owner->OGDescription == '') {
-            $this->owner->OGDescription = $this->owner->dbObject('Content')->Summary(50);
-        }
-        if (!$this->owner->OGImageID) {
-            $this->owner->OGImageID = SiteConfig::current_site_config()->DefaultOpenGraphImage()->ID;
+
+        if (!$this->owner->OGDescription) {
+            $this->owner->setField('OGDescription', $this->owner->dbObject('Content')->FirstParagraph());
         }
     }
 
