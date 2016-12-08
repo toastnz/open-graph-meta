@@ -2,10 +2,11 @@
 
 /**
  * Class OpenGraphSiteConfigExtension
+ *
+ * @property SiteConfig $owner
  */
-class OpenGraphSiteConfigExtension extends DataExtension {
-
-
+class OpenGraphSiteConfigExtension extends DataExtension
+{
     private static $has_one = array(
         'DefaultOpenGraphImage' => 'Image'
     );
@@ -13,7 +14,8 @@ class OpenGraphSiteConfigExtension extends DataExtension {
     /**
      * @param FieldList $fields
      */
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList $fields)
+    {
 
         if (!$fields->fieldByName('Root.Settings')) {
             $fields->addFieldToTab('Root', TabSet::create('Settings'));
@@ -28,7 +30,5 @@ class OpenGraphSiteConfigExtension extends DataExtension {
             HeaderField::create('', 'Open Graph'),
             UploadField::create('DefaultOpenGraphImage', 'Default Facebook Share Image')
         ));
-
     }
-
 }

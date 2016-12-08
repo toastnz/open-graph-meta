@@ -1,4 +1,9 @@
-Page:
+---
+Name: opengraphmeta
+After: 'framework/*','cms/*'
+Before: 'mysite'
+---
+SiteTree:
   extensions:
     - OpenGraphMeta
 SiteConfig:

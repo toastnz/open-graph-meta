@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Pinc
+ * Class OpenGraphMeta
+ *
+ * @property SiteTree $owner
  */
-class OpenGraphMeta extends DataExtension {
-
-
+class OpenGraphMeta extends DataExtension
+{
     /**
      * @var array
      */
@@ -27,7 +28,8 @@ class OpenGraphMeta extends DataExtension {
      * @param FieldList $fields
      * @return Object
      */
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList $fields)
+    {
 
         $fields->addFieldsToTab('Root.Main', ToggleCompositeField::create('Open graph', 'Open graph',
             array(
@@ -49,7 +51,8 @@ class OpenGraphMeta extends DataExtension {
         ));
     }
 
-    public function onBeforeWrite() {
+    public function onBeforeWrite()
+    {
         parent::onBeforeWrite();
         if ($this->owner->ID) {
             if ($this->owner->OGTitle == '') {
@@ -71,12 +74,13 @@ class OpenGraphMeta extends DataExtension {
         }
     }
 
-    public function FirstImage() {
+    public function FirstImage()
+    {
         $pattern = ' /<img[^>]+ src[\\s = \'"]';
         $pattern .= '+([^"\'>\\s]+)/is';
         if (preg_match_all($pattern, $this->owner->Content, $match)) {
             $imageLink = preg_replace('/_resampled\/resizedimage[0-9]*-/', '', $match[1][0]);
-            return (string) $imageLink;
+            return (string)$imageLink;
         } else {
             return;
         }
