@@ -14,10 +14,16 @@ Get the goodness just like so:
  composer require toastnz/open-graph-meta
 ```
 
-Then add the following to the HEAD of your document 
+And ensure you have the following in the `<head>` of your template:
 
 ```
- <% include OpenGraphMeta %>
+ $MetaTags
+```
+
+If you are not using `$MetaTags`, you can use the following template code:
+
+```
+  <% include OpenGraphMeta %>
 ```
 
 Step 4: Profit
