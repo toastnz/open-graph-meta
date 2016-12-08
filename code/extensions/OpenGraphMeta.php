@@ -93,6 +93,11 @@ class OpenGraphMeta extends DataExtension
         }
     }
 
+    public function getFirstImage()
+    {
+        return $this->owner->FirstImage();
+    }
+
     /**
      * Controller logic for returning Open Graph image
      *
