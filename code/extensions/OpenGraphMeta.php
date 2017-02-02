@@ -112,11 +112,11 @@ class OpenGraphMeta extends DataExtension
         $siteConfig = SiteConfig::current_site_config();
 
         if ($this->owner->OGImage() && $this->owner->OGImage()->exists()) {
-            return $this->owner->OGImage()->CroppedImage(560, 750)->AbsoluteURL;
+            return $this->owner->OGImage()->Fit(1200, 630)->AbsoluteURL;
         } elseif ($firstImage = $this->owner->getFirstImage()) {
             return Controller::join_links(Director::absoluteBaseURL(), $firstImage);
         } elseif ($siteConfig->DefaultOpenGraphImage() && $siteConfig->DefaultOpenGraphImage()->exists()) {
-            return $siteConfig->DefaultOpenGraphImage()->CroppedImage(560, 750)->AbsoluteURL;
+            return $siteConfig->DefaultOpenGraphImage()->Fit(1200, 630)->AbsoluteURL;
         }
 
         return '';

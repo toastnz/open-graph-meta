@@ -1,6 +1,10 @@
 # Change Log
 ---
 
+## [0.2.0](https://github.com/toastnz/twitter-card-meta/tree/0.2.0) (2017-02-03)
+
+* Update OpenGraph image to use Fit instead of CroppedImage
+
 ## [0.1.0](https://github.com/toastnz/twitter-card-meta/tree/0.1.0) (2016-12-08)
 
 * **BREAKING:** Move OpenGraphMeta from Page to SiteTree - use MigrateSiteTreeOpenGraphTask to move data
