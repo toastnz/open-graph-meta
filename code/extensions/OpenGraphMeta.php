@@ -125,11 +125,7 @@ class OpenGraphMeta extends DataExtension
     public function getOGUrlForTemplate()
     {
         if ($this->owner->OGUrl) {
-            if (strpos($this->owner->OGUrl, 'http://') === 0 || strpos($this->owner->OGUrl, 'https://') === 0) {
-                // URL is absolute, return
-                return $this->owner->OGUrl;
-            }
-            return Controller::join_links(Director::absoluteBaseURL(), $this->owner->OGUrl);
+            return Director::is_absolute_url($this->owner->OGUrl) ? $this->owner->OGUrl : Controller::join_links(Director::absoluteBaseURL(), $this->owner->OGUrl);
         } else {
             return $this->owner->AbsoluteLink();
         }
