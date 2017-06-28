@@ -13,20 +13,18 @@
  */
 class OpenGraphMeta extends DataExtension
 {
-    /**
-     * @var array
-     */
     private static $db = [
         'OGTitle'       => 'Varchar(255)',
-        'OGContent'     => 'Varchar(512)',
+        'OGContent'     => 'Enum("website,article,blog,product,profile,video,place","website")',
         'OGDescription' => 'Text'
     ];
 
-    /**
-     * @var array
-     */
     private static $has_one = [
         'OGImage' => 'Image'
+    ];
+
+    public static $defaults = [
+        'OGContent' => 'website'
     ];
 
     /**
@@ -36,19 +34,17 @@ class OpenGraphMeta extends DataExtension
     {
         $fields->addFieldToTab('Root.Main', ToggleCompositeField::create('OpenGraph', 'Open Graph',
             [
-                LiteralField::create('', '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="' . Director::absoluteBaseURL() . 'open-graph-meta/images/opengraph.png"></h2>'),
-                TextField::create('OGTitle', '')->setAttribute('placeholder', 'e.g My Website')->setRightTitle('Page title goes here, automatically defaults to the page title'),
-                DropdownField::create('OGContent', 'Content Type', [
-                    'website' => 'website',
-                    'article' => 'article',
-                    'blog'    => 'blog',
-                    'product' => 'product',
-                    'profile' => 'profile',
-                    'video'   => 'video',
-                    'place'   => 'place',
-                ], 'website')->setRightTitle('Will default to website (the most common open graph object type'),
-                TextAreaField::create('OGDescription', '')->setRightTitle('Page description goes here, automatically defaults to the content summary'),
+                LiteralField::create('', '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="' .
+                                         Director::absoluteBaseURL() . 'open-graph-meta/images/opengraph.png"></h2>'),
+                TextField::create('OGTitle', '')
+                    ->setAttribute('placeholder', 'e.g My Website')
+                    ->setRightTitle('Page title goes here, automatically defaults to the page title'),
+                DropdownField::create('OGContent', 'Content Type', $this->owner->dbObject('OGContent')->enumValues())
+                    ->setRightTitle('Will default to website (the most common open graph object type'),
+                TextAreaField::create('OGDescription', '')
+                    ->setRightTitle('Page description goes here, automatically defaults to the content summary'),
                 UploadField::create('OGImage', 'Open Graph Image')
+                    ->setDescription('Ideal size: 1200px * 630px')
             ]
         ));
     }
