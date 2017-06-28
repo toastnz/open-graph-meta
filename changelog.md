@@ -1,6 +1,10 @@
 # Change Log
 ---
 
+## [1.0.0](https://github.com/toastnz/twitter-card-meta/tree/1.0.0) (2017-06-28)
+
+* Disable saving OG details to database
+
 ## [0.2.0](https://github.com/toastnz/twitter-card-meta/tree/0.2.0) (2017-02-03)
 
 * Update OpenGraph image to use Fit instead of CroppedImage

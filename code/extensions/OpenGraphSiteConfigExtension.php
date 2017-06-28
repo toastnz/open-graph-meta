@@ -4,12 +4,14 @@
  * Class OpenGraphSiteConfigExtension
  *
  * @property SiteConfig $owner
+ *
+ * @method Image DefaultOpenGraphImage()
  */
 class OpenGraphSiteConfigExtension extends DataExtension
 {
-    private static $has_one = array(
+    private static $has_one = [
         'DefaultOpenGraphImage' => 'Image'
-    );
+    ];
 
     /**
      * @param FieldList $fields
@@ -26,9 +28,9 @@ class OpenGraphSiteConfigExtension extends DataExtension
          * ----------------------------------------*/
 
         $fields->findOrMakeTab('Root.Settings.OpenGraph');
-        $fields->addFieldsToTab('Root.Settings.OpenGraph', array(
+        $fields->addFieldsToTab('Root.Settings.OpenGraph', [
             HeaderField::create('', 'Open Graph'),
             UploadField::create('DefaultOpenGraphImage', 'Default Facebook Share Image')
-        ));
+        ]);
     }
 }

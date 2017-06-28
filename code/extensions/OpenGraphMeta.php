@@ -3,26 +3,31 @@
 /**
  * Class OpenGraphMeta
  *
- * @property SiteTree $owner
+ * @property string                 OGTitle
+ * @property string                 OGContent
+ * @property string                 OGDescription
+ *
+ * @method Image OGImage()
+ *
+ * @property SiteTree|OpenGraphMeta $owner
  */
 class OpenGraphMeta extends DataExtension
 {
     /**
      * @var array
      */
-    private static $db = array(
-        'OGTitle' => 'Varchar(255)',
-        'OGContent' => 'Varchar(512)',
-        'OGDescription' => 'Text',
-        'OGUrl' => 'Varchar(512)'
-    );
+    private static $db = [
+        'OGTitle'       => 'Varchar(255)',
+        'OGContent'     => 'Varchar(512)',
+        'OGDescription' => 'Text'
+    ];
 
     /**
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'OGImage' => 'Image'
-    );
+    ];
 
     /**
      * @param FieldList $fields
@@ -30,55 +35,22 @@ class OpenGraphMeta extends DataExtension
     public function updateCMSFields(FieldList $fields)
     {
         $fields->addFieldToTab('Root.Main', ToggleCompositeField::create('OpenGraph', 'Open Graph',
-            array(
+            [
                 LiteralField::create('', '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="' . Director::absoluteBaseURL() . 'open-graph-meta/images/opengraph.png"></h2>'),
                 TextField::create('OGTitle', '')->setAttribute('placeholder', 'e.g My Website')->setRightTitle('Page title goes here, automatically defaults to the page title'),
-                TextField::create('OGUrl', '')->setAttribute('placeholder', 'http://www.mywebsite.com/')->setRightTitle('Page URL goes here, automatically defaults to the page URL (shouldn\'t need overwriting)'),
-                DropdownField::create('OGContent', 'Content Type', array(
+                DropdownField::create('OGContent', 'Content Type', [
                     'website' => 'website',
                     'article' => 'article',
-                    'blog' => 'blog',
+                    'blog'    => 'blog',
                     'product' => 'product',
                     'profile' => 'profile',
-                    'video' => 'video',
-                    'place' => 'place',
-                ), 'website')->setRightTitle('Will default to website (the most common open graph object type'),
+                    'video'   => 'video',
+                    'place'   => 'place',
+                ], 'website')->setRightTitle('Will default to website (the most common open graph object type'),
                 TextAreaField::create('OGDescription', '')->setRightTitle('Page description goes here, automatically defaults to the content summary'),
                 UploadField::create('OGImage', 'Open Graph Image')
-            )
+            ]
         ));
-    }
-
-
-    public function onBeforeWrite()
-    {
-        /** =========================================
-         * @var SiteConfig $siteConfig
-        ===========================================*/
-
-        parent::onBeforeWrite();
-
-        $siteConfig = SiteConfig::current_site_config();
-
-        if ($this->owner->exists()) {
-            if ($this->owner->isChanged('Content') && !$this->owner->OGDescription) {
-                $this->owner->setField('OGDescription', $this->owner->dbObject('Content')->FirstParagraph());
-            }
-            if ($this->owner->isChanged('Title') && !$this->owner->OGTitle) {
-                $this->owner->setField('OGTitle', $this->owner->Title);
-            }
-            if (!$this->owner->OGImageID) {
-                $this->owner->setField('OGImageID', $siteConfig->DefaultOpenGraphImageID);
-            }
-        }
-
-        if (!$this->owner->OGContent) {
-            $this->owner->OGContent = 'website';
-        }
-
-        if (!$this->owner->OGDescription) {
-            $this->owner->setField('OGDescription', $this->owner->dbObject('Content')->FirstParagraph());
-        }
     }
 
     public function FirstImage()
@@ -106,7 +78,7 @@ class OpenGraphMeta extends DataExtension
     public function getOGImageURL()
     {
         /** =========================================
-         * @var SiteConfig $siteConfig
+         * @var OpenGraphSiteConfigExtension $siteConfig
          * ========================================*/
 
         $siteConfig = SiteConfig::current_site_config();
@@ -122,29 +94,20 @@ class OpenGraphMeta extends DataExtension
         return '';
     }
 
-    public function getOGUrlForTemplate()
-    {
-        if ($this->owner->OGUrl) {
-            return Director::is_absolute_url($this->owner->OGUrl) ? $this->owner->OGUrl : Controller::join_links(Director::absoluteBaseURL(), $this->owner->OGUrl);
-        } else {
-            return $this->owner->AbsoluteLink();
-        }
-    }
-
     /**
      * @param string $tags
      */
     public function MetaTags(&$tags)
     {
         // Title
-        if ($this->owner->OGTitle) {
+        if (trim($this->owner->OGTitle)) {
             $tags .= sprintf('<meta name="og:title" content="%s">', $this->owner->OGTitle) . "\n";
         } else {
             $tags .= sprintf('<meta name="og:title" content="%s">', $this->owner->Title) . "\n";
         }
 
         // URL
-        $tags .= sprintf('<meta name="og:url" content="%s">', $this->owner->getOGUrlForTemplate()) . "\n";
+        $tags .= sprintf('<meta name="og:url" content="%s">', $this->owner->AbsoluteLink()) . "\n";
 
         // Type
         if ($this->owner->OGContent) {
@@ -154,7 +117,7 @@ class OpenGraphMeta extends DataExtension
         }
 
         // Description
-        if ($this->owner->OGDescription) {
+        if (trim($this->owner->OGDescription)) {
             $tags .= sprintf('<meta name="og:description" content="%s">', $this->owner->OGDescription) . "\n";
         } elseif ($this->owner->Content) {
             $tags .= sprintf('<meta name="og:description" content="%s">', $this->owner->dbObject('Content')->FirstParagraph()) . "\n";
@@ -165,6 +128,8 @@ class OpenGraphMeta extends DataExtension
 
         $this->owner->extend('updateOpenGraphImage', $image);
 
-        $tags .= sprintf('<meta name="og:image" content="%s">', $image) . "\n";
+        if (!empty($image)) {
+            $tags .= sprintf('<meta name="og:image" content="%s">', $image) . "\n";
+        }
     }
 }
