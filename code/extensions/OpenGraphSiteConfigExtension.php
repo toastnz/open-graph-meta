@@ -18,17 +18,17 @@ class OpenGraphSiteConfigExtension extends DataExtension
      */
     public function updateCMSFields(FieldList $fields)
     {
-
-        if (!$fields->fieldByName('Root.Settings')) {
-            $fields->addFieldToTab('Root', TabSet::create('Settings'));
+        if (!$fields->fieldByName('Root.Metadata')) {
+            $fields->addFieldToTab('Root', TabSet::create('Metadata'));
         }
 
         /** -----------------------------------------
          * Details
          * ----------------------------------------*/
 
-        $fields->findOrMakeTab('Root.Settings.OpenGraph');
-        $fields->addFieldsToTab('Root.Settings.OpenGraph', [
+        $fields->findOrMakeTab('Root.Metadata.OpenGraph', 'Facebook');
+
+        $fields->addFieldsToTab('Root.Metadata.OpenGraph', [
             HeaderField::create('', 'Open Graph'),
             UploadField::create('DefaultOpenGraphImage', 'Default Facebook Share Image')
         ]);
