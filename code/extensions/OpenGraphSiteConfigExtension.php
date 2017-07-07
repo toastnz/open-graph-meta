@@ -1,5 +1,12 @@
 <?php
 
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\ORM\DataExtension;
+
 /**
  * Class OpenGraphSiteConfigExtension
  *
@@ -10,7 +17,7 @@
 class OpenGraphSiteConfigExtension extends DataExtension
 {
     private static $has_one = [
-        'DefaultOpenGraphImage' => 'Image'
+        'DefaultOpenGraphImage' => Image::class
     ];
 
     /**

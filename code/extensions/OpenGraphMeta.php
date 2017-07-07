@@ -1,5 +1,18 @@
 <?php
 
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Control\Director;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Forms\ToggleCompositeField;
+use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\Control\Controller;
+use SilverStripe\ORM\DataExtension;
+
 /**
  * Class OpenGraphMeta
  *
@@ -20,7 +33,7 @@ class OpenGraphMeta extends DataExtension
     ];
 
     private static $has_one = [
-        'OGImage' => 'Image'
+        'OGImage' => Image::class
     ];
 
     public static $defaults = [
@@ -41,7 +54,7 @@ class OpenGraphMeta extends DataExtension
                     ->setRightTitle('Page title goes here, automatically defaults to the page title'),
                 DropdownField::create('OGContent', 'Content Type', $this->owner->dbObject('OGContent')->enumValues())
                     ->setRightTitle('Will default to website (the most common open graph object type'),
-                TextAreaField::create('OGDescription', '')
+                TextareaField::create('OGDescription', '')
                     ->setRightTitle('Page description goes here, automatically defaults to the content summary'),
                 UploadField::create('OGImage', 'Open Graph Image')
                     ->setDescription('Ideal size: 1200px * 630px')

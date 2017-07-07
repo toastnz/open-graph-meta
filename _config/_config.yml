@@ -1,11 +1,9 @@
 ---
 Name: opengraphmeta
-After: 'framework/*','cms/*'
-Before: 'mysite'
 ---
-SiteTree:
+SilverStripe\CMS\Model\SiteTree:
   extensions:
     - OpenGraphMeta
-SiteConfig:
+SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - OpenGraphSiteConfigExtension
