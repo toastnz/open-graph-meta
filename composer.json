@@ -23,7 +23,7 @@
     ],
     "require": {
         "composer/installers": "*",
-        "silverstripe/cms": "^4.0",
-        "silverstripe/framework": "^4.0"
+        "silverstripe/cms": "~4.0",
+        "silverstripe/framework": "~4.0"
     }
 }
