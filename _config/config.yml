@@ -1,5 +1,9 @@
 ---
 Name: opengraphmeta
+After:
+  - 'siteconfig/*'
+Before:
+  - 'mysite'
 ---
 SilverStripe\CMS\Model\SiteTree:
   extensions:
