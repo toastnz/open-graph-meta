@@ -1,6 +1,10 @@
 # Change Log
 ---
 
+## [1.0.2](https://github.com/toastnz/open-graph-meta/tree/1.0.2) (2017-09-07)
+
+* Fix incorrect attribute on meta tags
+
 ## [1.0.0](https://github.com/toastnz/open-graph-meta/tree/1.0.0) (2017-06-28)
 
 * Disable saving OG details to database

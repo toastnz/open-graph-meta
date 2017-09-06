@@ -97,26 +97,26 @@ class OpenGraphMeta extends DataExtension
     {
         // Title
         if (trim($this->owner->OGTitle)) {
-            $tags .= sprintf('<meta name="og:title" content="%s">', $this->owner->OGTitle) . "\n";
+            $tags .= sprintf('<meta property="og:title" content="%s">', $this->owner->OGTitle) . "\n";
         } else {
-            $tags .= sprintf('<meta name="og:title" content="%s">', $this->owner->Title) . "\n";
+            $tags .= sprintf('<meta property="og:title" content="%s">', $this->owner->Title) . "\n";
         }
 
         // URL
-        $tags .= sprintf('<meta name="og:url" content="%s">', $this->owner->AbsoluteLink()) . "\n";
+        $tags .= sprintf('<meta property="og:url" content="%s">', $this->owner->AbsoluteLink()) . "\n";
 
         // Type
         if ($this->owner->OGContent) {
-            $tags .= sprintf('<meta name="og:type" content="%s">', $this->owner->OGContent) . "\n";
+            $tags .= sprintf('<meta property="og:type" content="%s">', $this->owner->OGContent) . "\n";
         } else {
-            $tags .= '<meta name="og:type" content="website">' . "\n";
+            $tags .= '<meta property="og:type" content="website">' . "\n";
         }
 
         // Description
         if (trim($this->owner->OGDescription)) {
-            $tags .= sprintf('<meta name="og:description" content="%s">', $this->owner->OGDescription) . "\n";
+            $tags .= sprintf('<meta property="og:description" content="%s">', $this->owner->OGDescription) . "\n";
         } elseif ($this->owner->Content) {
-            $tags .= sprintf('<meta name="og:description" content="%s">', $this->owner->dbObject('Content')->FirstParagraph()) . "\n";
+            $tags .= sprintf('<meta property="og:description" content="%s">', $this->owner->dbObject('Content')->FirstParagraph()) . "\n";
         }
 
         // Image
@@ -125,7 +125,7 @@ class OpenGraphMeta extends DataExtension
         $this->owner->extend('updateOpenGraphImage', $image);
 
         if (!empty($image)) {
-            $tags .= sprintf('<meta name="og:image" content="%s">', $image) . "\n";
+            $tags .= sprintf('<meta property="og:image" content="%s">', $image) . "\n";
         }
     }
 }
