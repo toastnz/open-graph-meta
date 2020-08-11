@@ -1,7 +1,7 @@
 {
     "name": "toastnz/open-graph-meta",
     "description": "Silverstripe Open Graph Module",
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
     "keywords": [
         "silverstripe",
         "open graph",
@@ -22,8 +22,20 @@
         }
     ],
     "require": {
-        "composer/installers": "*",
+        "composer/installers": "~1.0",
         "silverstripe/cms": "~4.0",
         "silverstripe/framework": "~4.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "ToastNZ\\OpenGraphMeta\\": "src/"
+        }
+    },
+    "extra": {
+        "expose": [
+            "client"
+        ]
     }
 }

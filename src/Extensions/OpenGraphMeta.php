@@ -1,5 +1,7 @@
 <?php
 
+namespace ToastNZ\OpenGraphMeta\Extensions;
+
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Control\Director;
@@ -12,6 +14,7 @@ use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Manifest\ModuleResourceLoader;
 
 /**
  * Class OpenGraphMeta
@@ -45,27 +48,45 @@ class OpenGraphMeta extends DataExtension
      */
     public function updateCMSFields(FieldList $fields)
     {
-        $fields->addFieldToTab('Root.Main', ToggleCompositeField::create('OpenGraph', 'Open Graph',
-            [
-                LiteralField::create('', '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="' .
-                                         Director::absoluteBaseURL() . 'open-graph-meta/images/opengraph.png"></h2>'),
-                TextField::create('OGTitle', '')
-                    ->setAttribute('placeholder', 'e.g My Website')
-                    ->setRightTitle('Page title goes here, automatically defaults to the page title'),
-                DropdownField::create('OGContent', 'Content Type', $this->owner->dbObject('OGContent')->enumValues())
-                    ->setRightTitle('Will default to website (the most common open graph object type'),
-                TextareaField::create('OGDescription', '')
-                    ->setRightTitle('Page description goes here, automatically defaults to the content summary'),
-                UploadField::create('OGImage', 'Open Graph Image')
-                    ->setDescription('Ideal size: 1200px * 630px')
-            ]
-        ));
+         $imageUrl = ModuleResourceLoader::singleton()
+            ->resolveUrl('toastnz/open-graph-meta:client/images/opengraph.png');
+
+        $headerHtml = sprintf(
+            '<h2>&nbsp;&nbsp;&nbsp;Open Graph Information <img style="position:relative;top:8px;" src="%s"></h2>',
+            $imageUrl
+        );
+
+        $fields->addFieldToTab(
+            'Root.Main',
+            ToggleCompositeField::create(
+                'OpenGraph',
+                'Open Graph',
+                [
+                    LiteralField::create('', $headerHtml),
+                    TextField::create('OGTitle', '')
+                        ->setAttribute('placeholder', 'e.g My Website')
+                        ->setRightTitle('Page title goes here, automatically defaults to the page title'),
+                    DropdownField::create(
+                        'OGContent',
+                        'Content Type',
+                        $this->owner->dbObject('OGContent')->enumValues()
+                    )->setRightTitle('Will default to website (the most common open graph object type'),
+                    TextareaField::create('OGDescription', '')
+                        ->setRightTitle(
+                            'Page description goes here, automatically defaults to the content summary'
+                        ),
+                    UploadField::create('OGImage', 'Open Graph Image')
+                        ->setDescription('Ideal size: 1200px * 630px')
+                ]
+            )
+        );
     }
 
     public function FirstImage()
     {
         $pattern = ' /<img[^>]+ src[\\s = \'"]';
         $pattern .= '+([^"\'>\\s]+)/is';
+
         if (preg_match_all($pattern, $this->owner->Content, $match)) {
             $imageLink = preg_replace('/_resampled\/resizedimage[0-9]*-/', '', $match[1][0]);
             return (string)$imageLink;
@@ -129,7 +150,10 @@ class OpenGraphMeta extends DataExtension
         if (trim($this->owner->OGDescription)) {
             $tags .= sprintf('<meta name="og:description" content="%s">', $this->owner->OGDescription) . "\n";
         } elseif ($this->owner->Content) {
-            $tags .= sprintf('<meta name="og:description" content="%s">', $this->owner->dbObject('Content')->FirstParagraph()) . "\n";
+            $tags .= sprintf(
+                '<meta name="og:description" content="%s">',
+                $this->owner->dbObject('Content')->FirstParagraph()
+            ) . "\n";
         }
 
         // Image
