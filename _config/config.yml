@@ -7,7 +7,8 @@ Before:
 ---
 SilverStripe\CMS\Model\SiteTree:
   extensions:
-    - OpenGraphMeta
+    - ToastNZ\OpenGraphMeta\Extensions\OpenGraphMeta
+
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - OpenGraphSiteConfigExtension
+    - ToastNZ\OpenGraphMeta\Extensions\OpenGraphSiteConfigExtension

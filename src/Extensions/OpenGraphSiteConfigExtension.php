@@ -1,5 +1,7 @@
 <?php
 
+namespace ToastNZ\OpenGraphMeta\Extensions;
+
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TabSet;
